@@ -21,7 +21,14 @@
   },
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
+    "camelcase": "off",
+    "class-methods-use-this": "off",
+    "no-unused-vars": "off",
     "prettier/prettier": "error",
+    "no-param-reassign": [
+      "error",
+      { "props": true, "ignorePropertyModificationsFor": ["draft"] }
+    ],
     "import/extensions": [
       "error",
       "ignorePackages",
