@@ -1,25 +1,33 @@
+import { getCustomRepository, TransactionRepository } from 'typeorm';
 import TransactionsRepository from '../repositories/TransactionsRepository';
 import Transaction from '../models/Transaction';
 
+// import AppError from '../errors/AppError';
+
+interface Request {
+  title: string;
+  value: number;
+  type: 'income' | 'outcome';
+  category: string;
+}
+
 class CreateTransactionService {
-  private transactionsRepository: TransactionsRepository;
+  public async execute({
+    title,
+    value,
+    type,
+    category,
+  }: Request): Promise<Transaction> {
+    const transactionRepository = getCustomRepository(TransactionsRepository);
 
-  constructor(transactionsRepository: TransactionsRepository) {
-    this.transactionsRepository = transactionsRepository;
-  }
-
-  public execute({ title, value, type }: Omit<Transaction, 'id'>): Transaction {
-    const balance = this.transactionsRepository.getBalance();
-
-    if (type === 'outcome' && balance.total < value) {
-      throw Error('There is not enough balance to make the outcome');
-    }
-
-    const transaction = this.transactionsRepository.create({
+    const transaction = transactionRepository.create({
       title,
       value,
       type,
     });
+
+    await transactionRepository.save(transaction);
+
     return transaction;
   }
 }

@@ -1,40 +1,38 @@
 import { Router } from 'express';
-
-import TransactionsRepository from '../repositories/TransactionsRepository';
+import { getCustomRepository } from 'typeorm';
 import CreateTransactionService from '../services/CreateTransactionService';
 
-const transactionRouter = Router();
+// import TransactionsRepository from '../repositories/TransactionsRepository';
+// import CreateTransactionService from '../services/CreateTransactionService';
+// import DeleteTransactionService from '../services/DeleteTransactionService';
+// import ImportTransactionsService from '../services/ImportTransactionsService';
 
-const transactionsRepository = new TransactionsRepository();
+const transactionsRouter = Router();
 
-transactionRouter.get('/', (request, response) => {
-  try {
-    const balance = transactionsRepository.getBalance();
-    const transactions = transactionsRepository.all();
-    return response.json({ transactions, balance });
-  } catch (err) {
-    return response.status(400).json({ error: err.message });
-  }
+transactionsRouter.get('/', async (request, response) => {
+  // TODO
 });
 
-transactionRouter.post('/', (request, response) => {
-  try {
-    const { title, value, type } = request.body;
+transactionsRouter.post('/', async (request, response) => {
+  const { title, value, type, category } = request.body;
 
-    const createTransaction = new CreateTransactionService(
-      transactionsRepository,
-    );
+  const createTransaction = new CreateTransactionService();
 
-    const transaction = createTransaction.execute({
-      title,
-      value,
-      type,
-    });
-
-    return response.json(transaction);
-  } catch (err) {
-    return response.status(400).json({ error: err.message });
-  }
+  const transaction = await createTransaction.execute({
+    title,
+    value,
+    type,
+    category,
+  });
+  return response.json(transaction);
 });
 
-export default transactionRouter;
+transactionsRouter.delete('/:id', async (request, response) => {
+  // TODO
+});
+
+transactionsRouter.post('/import', async (request, response) => {
+  // TODO
+});
+
+export default transactionsRouter;
