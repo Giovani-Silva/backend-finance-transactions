@@ -1,8 +1,4 @@
-import {
-  getCustomRepository,
-  getRepository,
-  TransactionRepository,
-} from 'typeorm';
+import { getCustomRepository, getRepository } from 'typeorm';
 import TransactionsRepository from '../repositories/TransactionsRepository';
 import Transaction from '../models/Transaction';
 import Category from '../models/Category';
