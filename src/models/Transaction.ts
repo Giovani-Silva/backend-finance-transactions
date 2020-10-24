@@ -10,6 +10,7 @@ import {
 
 import Category from './Category';
 
+@Entity('transactions')
 class Transaction {
   @PrimaryGeneratedColumn('uuid')
   id: string;
