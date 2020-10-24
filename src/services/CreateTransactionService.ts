@@ -1,4 +1,4 @@
-mport {
+import {
   getCustomRepository,
   getRepository,
   TransactionRepository,
